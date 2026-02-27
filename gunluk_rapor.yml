@@ -20,7 +20,7 @@ jobs:
 
       - name: Gerekli kütüphaneleri yükle
         run: |
-          pip install requests beautifulsoup4
+          pip install requests beautifulsoup4 google-generativeai
 
       - name: Botu çalıştır ve mail at
         env:
