@@ -71,7 +71,7 @@ def bulten_hazirla():
         "food service automation cost"
     ]
     gunun_terimi = random.choice(arama_terimleri)
-    url = f"[https://www.bing.com/news/search?q=](https://www.bing.com/news/search?q=){gunun_terimi.replace(' ', '+')}"
+    url = f"https://www.bing.com/news/search?q={gunun_terimi.replace(' ', '+')}"
     # ----------------------------------------
 
     headers = {'User-Agent': 'Mozilla/5.0'}
