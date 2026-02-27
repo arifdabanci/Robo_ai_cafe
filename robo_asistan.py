@@ -64,7 +64,7 @@ def haberi_cevir_ve_analiz_et(baslik, link, ham_metin):
         return f"<p>API Hatası: {e}</p>"
 
 def bulten_hazirla():
-    url = "url = "https://www.bing.com/news/search?q=robotic+service+cafe+AI""
+    url = "url = "https://www.bing.com/news/search?q=robotic+service+cafe+AI"
     headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
