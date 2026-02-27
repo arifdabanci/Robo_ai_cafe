@@ -71,8 +71,8 @@ def bulten_hazirla():
         "autonomous technology market gaps",
         "future of AI automation profitable"
     ]
-    gunun_terimi = random.choice(arama_terimleri)
-    url = f"[https://www.bing.com/news/search?q=](https://www.bing.com/news/search?q=){gunun_terimi.replace(' ', '+')}"
+    arama_motoru = "https://www.bing.com"
+    url = arama_motoru + "/news/search?q=" + gunun_terimi.replace(' ', '+')
 
     headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(url, headers=headers)
