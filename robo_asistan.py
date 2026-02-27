@@ -4,8 +4,8 @@ import os
 import smtplib
 from email.mime.text import MIMEText
 import google.generativeai as genai
+import random  # Rastgele konu seçimi için eklendi
 
-# Gemini API Ayarları
 GOOGLE_API_KEY = os.environ.get('GEMINI_API_KEY')
 
 def haberi_cevir_ve_analiz_et(baslik, link, ham_metin):
@@ -15,7 +15,6 @@ def haberi_cevir_ve_analiz_et(baslik, link, ham_metin):
     genai.configure(api_key=GOOGLE_API_KEY)
     model = genai.GenerativeModel('gemini-2.5-flash')
     
-    # Promptu Fikir Meritokrasisi ve Objektiflik üzerine kurguladık
     prompt = f"""
     Sen Ray Dalio'nun "Fikir Meritokrasisi" ve Nassim Taleb'in "Lindy Etkisi" felsefelerini benimsemiş üst düzey bir stratejistsin.
     Aşağıdaki metni analiz et.
@@ -57,28 +56,37 @@ def haberi_cevir_ve_analiz_et(baslik, link, ham_metin):
     """
     try:
         response = model.generate_content(prompt)
-        # Bazen AI başına sonuna markdown ekler, onları temizliyoruz
         html_cikti = response.text.replace('```html', '').replace('```', '').strip()
         return html_cikti
     except Exception as e:
         return f"<p>API Hatası: {e}</p>"
 
 def bulten_hazirla():
-    url = "https://www.bing.com/news/search?q=robotic+service+cafe+AI"
+    # --- YENİ EKLENEN KISIM: DİNAMİK ARAMA ---
+    arama_terimleri = [
+        "robotic service cafe AI",
+        "autonomous restaurant startup",
+        "hospitality robots ROI profit",
+        "AI barista technology trends",
+        "food service automation cost"
+    ]
+    gunun_terimi = random.choice(arama_terimleri)
+    url = f"[https://www.bing.com/news/search?q=](https://www.bing.com/news/search?q=){gunun_terimi.replace(' ', '+')}"
+    # ----------------------------------------
+
     headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.text, 'html.parser')
     
     haberler = soup.find_all('a', class_='title', limit=3)
     
-    # E-POSTANIN ANA GÖVDESİ (HTML TASARIMI)
-    rapor = """
+    rapor = f"""
     <html>
     <body style="background-color: #e9ecef; padding: 20px;">
         <div style="max-width: 800px; margin: auto;">
             <div style="text-align: center; margin-bottom: 30px;">
                 <h1 style="color: #2c3e50; font-family: 'Segoe UI', Arial, sans-serif; margin-bottom: 5px;">🤖 ROBOAI CAFE GÜNLÜK VİZYON</h1>
-                <p style="color: #7f8c8d; font-family: Arial, sans-serif; font-size: 16px;">Yapay Zeka Destekli Strateji ve Fırsat Bülteni</p>
+                <p style="color: #7f8c8d; font-family: Arial, sans-serif; font-size: 16px;">Bugünün Araştırma Odağı: <b>{gunun_terimi.upper()}</b></p>
             </div>
     """
     
@@ -108,9 +116,8 @@ def eposta_gonder(icerik):
     email_user = "arifdabanci377@gmail.com"
     email_pass = os.environ.get('EMAIL_SIFRESI')
     
-    # DİKKAT: Artık 'plain' yerine 'html' kullanıyoruz!
     msg = MIMEText(icerik, 'html', 'utf-8')
-    msg['Subject'] = '✨ Tasarımı Yenilenmiş RoboAI Analizin Hazır!'
+    msg['Subject'] = '✨ RoboAI Günlük Analizin Hazır!'
     msg['From'] = email_user
     msg['To'] = email_user
 
@@ -119,7 +126,7 @@ def eposta_gonder(icerik):
         server.send_message(msg)
 
 if __name__ == "__main__":
-    print("Gelişmiş Sistem Başlatılıyor...")
+    print("Dinamik Sistem Başlatılıyor...")
     rapor_metni = bulten_hazirla()
     eposta_gonder(rapor_metni)
     print("Harika tasarımlı e-posta gönderildi!")
