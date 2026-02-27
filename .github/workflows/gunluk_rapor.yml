@@ -2,25 +2,26 @@ name: RoboAI Haber Otomasyonu
 
 on:
   schedule:
-    - cron: '0 6 * * *' # Her sabah TR saatiyle 09:00
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Kodları çek
+      - name: Kodları depodan çek
         uses: actions/checkout@v3
 
-      - name: Python'u kur
+      - name: Python'u hazırla
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
 
-      - name: Kütüphaneleri yükle
-        run: pip install requests beautifulsoup4
+      - name: Gerekli kütüphaneleri yükle
+        run: pip install requests beautifulsoup4 google-generativeai
 
-      - name: Botu çalıştır
+      - name: Botu çalıştır ve mail at
         env:
           EMAIL_SIFRESI: ${{ secrets.EMAIL_SIFRESI }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python robo_asistan.py
