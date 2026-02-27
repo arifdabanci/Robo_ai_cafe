@@ -4,7 +4,7 @@ import os
 import smtplib
 from email.mime.text import MIMEText
 import google.generativeai as genai
-import random  # Rastgele konu seçimi için eklendi
+import random
 
 GOOGLE_API_KEY = os.environ.get('GEMINI_API_KEY')
 
@@ -15,14 +15,15 @@ def haberi_cevir_ve_analiz_et(baslik, link, ham_metin):
     genai.configure(api_key=GOOGLE_API_KEY)
     model = genai.GenerativeModel('gemini-2.5-flash')
     
+    # PROMPT DEĞİŞTİ: Artık sadece kafe değil, genel iş fırsatı ve risk analizi yapıyor.
     prompt = f"""
-    Sen Ray Dalio'nun "Fikir Meritokrasisi" ve Nassim Taleb'in "Lindy Etkisi" felsefelerini benimsemiş üst düzey bir stratejistsin.
+    Sen Ray Dalio'nun "Fikir Meritokrasisi" ve Nassim Taleb'in "Lindy Etkisi" felsefelerini benimsemiş üst düzey bir strateji ve yatırım danışmanısın.
     Aşağıdaki metni analiz et.
     
     Görevlerin:
     1. Haberin detaylı, en az 3-4 paragraflık kapsamlı bir TÜRKÇE özetini çıkar.
-    2. Bu haberi "RoboAI Cafe" kurmak isteyen kısıtlı sermayeli bir girişimci için TAMAMEN OBJEKTİF analiz et.
-    3. Hem FIRSATLARI (Kârlılık, verimlilik) hem de RİSKLERİ (Kırılganlık, maliyet) dengeli sun.
+    2. Haberdeki teknolojiyi veya gelişmeyi, yeni bir İŞ FİKRİ veya PAZAR FIRSATI olarak TAMAMEN OBJEKTİF analiz et. (Kendini kafe sektörüyle sınırlama, haberin sektörü neyse ona göre değerlendir).
+    3. Sermayesini akıllıca kullanmak zorunda olan vizyoner bir girişimci için bu konseptin FIRSATLARI (Kârlılık, pazardaki boşluk, ölçeklenebilirlik) ve RİSKLERİ (Kırılganlık, AR-GE maliyeti, teknolojik eskime) dengeli sun.
     
     Haber Başlığı: {baslik}
     Metin: {ham_metin}
@@ -36,21 +37,21 @@ def haberi_cevir_ve_analiz_et(baslik, link, ham_metin):
         <h3 style="color: #34495e; margin-top: 25px;">📑 Kapsamlı Özet</h3>
         <p style="font-size: 15px; line-height: 1.7; color: #444;">[Buraya 3-4 paragraflık uzun ve detaylı özeti yaz]</p>
         
-        <h3 style="color: #27ae60; margin-top: 25px;">✅ Fırsatlar ve Potansiyel (Upside)</h3>
+        <h3 style="color: #27ae60; margin-top: 25px;">💡 İş Fikri Olarak Fırsatlar (Upside)</h3>
         <ul style="font-size: 15px; line-height: 1.6; color: #444;">
             <li>[Fırsat 1]</li>
             <li>[Fırsat 2]</li>
         </ul>
         
-        <h3 style="color: #c0392b; margin-top: 25px;">⚠️ Riskler ve Kırılganlık (Downside)</h3>
+        <h3 style="color: #c0392b; margin-top: 25px;">⚠️ Sektörel Riskler ve Kırılganlık (Downside)</h3>
         <ul style="font-size: 15px; line-height: 1.6; color: #444;">
             <li>[Risk 1]</li>
             <li>[Risk 2]</li>
         </ul>
         
         <div style="background-color: #f8f9fa; padding: 15px; border-left: 5px solid #8e44ad; margin-top: 25px; border-radius: 0 8px 8px 0;">
-            <h4 style="color: #8e44ad; margin-top: 0;">🎯 Stratejik Karar ve Aksiyon</h3>
-            <p style="font-size: 15px; margin-bottom: 0; color: #333;">[Girişimci için objektif nihai tavsiye]</p>
+            <h4 style="color: #8e44ad; margin-top: 0;">🎯 Yatırım ve Aksiyon Stratejisi</h3>
+            <p style="font-size: 15px; margin-bottom: 0; color: #333;">[Bu haberi okuyan bir girişimci ne yapmalı? Bu alana nasıl girmeli veya uzak mı durmalı? Objektif nihai tavsiye]</p>
         </div>
     </div>
     """
@@ -62,17 +63,16 @@ def haberi_cevir_ve_analiz_et(baslik, link, ham_metin):
         return f"<p>API Hatası: {e}</p>"
 
 def bulten_hazirla():
-    # --- YENİ EKLENEN KISIM: DİNAMİK ARAMA ---
+    # ARAMA UFKU GENİŞLETİLDİ: Sadece kafe değil, genel otomasyon ve AI fırsatları
     arama_terimleri = [
-        "robotic service cafe AI",
-        "autonomous restaurant startup",
-        "hospitality robots ROI profit",
-        "AI barista technology trends",
-        "food service automation cost"
+        "artificial intelligence business opportunities",
+        "robotics startup trends automation",
+        "AI service industry disruption",
+        "autonomous technology market gaps",
+        "future of AI automation profitable"
     ]
     gunun_terimi = random.choice(arama_terimleri)
-    url = f"https://www.bing.com/news/search?q={gunun_terimi.replace(' ', '+')}"
-    # ----------------------------------------
+    url = f"[https://www.bing.com/news/search?q=](https://www.bing.com/news/search?q=){gunun_terimi.replace(' ', '+')}"
 
     headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(url, headers=headers)
@@ -85,7 +85,7 @@ def bulten_hazirla():
     <body style="background-color: #e9ecef; padding: 20px;">
         <div style="max-width: 800px; margin: auto;">
             <div style="text-align: center; margin-bottom: 30px;">
-                <h1 style="color: #2c3e50; font-family: 'Segoe UI', Arial, sans-serif; margin-bottom: 5px;">🤖 ROBOAI CAFE GÜNLÜK VİZYON</h1>
+                <h1 style="color: #2c3e50; font-family: 'Segoe UI', Arial, sans-serif; margin-bottom: 5px;">🌍 GLOBAL AI & OTOMASYON VİZYONU</h1>
                 <p style="color: #7f8c8d; font-family: Arial, sans-serif; font-size: 16px;">Bugünün Araştırma Odağı: <b>{gunun_terimi.upper()}</b></p>
             </div>
     """
@@ -117,7 +117,7 @@ def eposta_gonder(icerik):
     email_pass = os.environ.get('EMAIL_SIFRESI')
     
     msg = MIMEText(icerik, 'html', 'utf-8')
-    msg['Subject'] = '✨ RoboAI Günlük Analizin Hazır!'
+    msg['Subject'] = '🚀 Yeni İş Fikirleri ve AI Otomasyon Analizin Hazır!'
     msg['From'] = email_user
     msg['To'] = email_user
 
@@ -126,7 +126,7 @@ def eposta_gonder(icerik):
         server.send_message(msg)
 
 if __name__ == "__main__":
-    print("Dinamik Sistem Başlatılıyor...")
+    print("Global Sistem Başlatılıyor...")
     rapor_metni = bulten_hazirla()
     eposta_gonder(rapor_metni)
-    print("Harika tasarımlı e-posta gönderildi!")
+    print("Harika tasarımlı global e-posta gönderildi!")
