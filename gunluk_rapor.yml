@@ -2,9 +2,8 @@ name: RoboAI Haber Otomasyonu
 
 on:
   schedule:
-    # Her sabah Türkiye saatiyle 09:00'da çalışır (UTC 06:00)
     - cron: '0 6 * * *'
-  workflow_dispatch: # Bu satır sayesinde "Run workflow" butonuyla elle de çalıştırabilirsin
+  workflow_dispatch:
 
 jobs:
   build:
@@ -19,10 +18,12 @@ jobs:
           python-version: '3.9'
 
       - name: Gerekli kütüphaneleri yükle
-        run: |
-          pip install requests beautifulsoup4 google-generativeai
+        # İŞTE BURAYA google-generativeai EKLENDİ
+        run: pip install requests beautifulsoup4 google-generativeai
 
       - name: Botu çalıştır ve mail at
         env:
           EMAIL_SIFRESI: ${{ secrets.EMAIL_SIFRESI }}
+          # YAPAY ZEKA ŞİFRENİ DE BURAYA EKLEDİK Kİ KOD GÖREBİLSİN
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python robo_asistan.py
