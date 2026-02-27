@@ -53,7 +53,7 @@ def bulten_hazirla():
         baslik = h.text
         link = h['href']
         
-        print(f"Analiz ediliyor: {baslik}") # Log kaydı için
+        print(f"Analiz ediliyor: {baslik}") 
         detayli_ozet = haber_detay_cek(link)
         strateji = analiz_motoru(baslik, detayli_ozet)
         
@@ -65,4 +65,27 @@ def bulten_hazirla():
         
     return rapor
 
-# eposta_gonder fonksiyonu (Sende mevcut olanı buraya ekle)
+def eposta_gonder(icerik):
+    """Hazırlanan raporu e-posta olarak gönderir."""
+    email_user = "arifdabanci377@gmail.com"
+    email_pass = os.environ.get('EMAIL_SIFRESI')
+    
+    msg = MIMEText(icerik, 'plain', 'utf-8')
+    msg['Subject'] = '🚀 RoboAI Günlük Derin Analizin Hazır!'
+    msg['From'] = email_user
+    msg['To'] = email_user
+
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+            server.login(email_user, email_pass)
+            server.send_message(msg)
+        print("E-posta başarıyla gönderildi!")
+    except Exception as e:
+        print(f"E-posta gönderilirken hata oluştu: {e}")
+
+# --- KODU ÇALIŞTIRAN ANA BÖLÜM ---
+if __name__ == "__main__":
+    print("İşlem başlatılıyor...")
+    rapor_metni = bulten_hazirla()
+    eposta_gonder(rapor_metni)
+    print("Sistem başarıyla tamamlandı.")
