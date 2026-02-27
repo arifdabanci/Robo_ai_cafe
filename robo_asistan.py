@@ -16,18 +16,21 @@ def haberi_cevir_ve_analiz_et(baslik, ham_metin):
     model = genai.GenerativeModel('gemini-2.5-flash')
     
     prompt = f"""
-    Aşağıdaki metin bir haber sitesinden kazınmıştır. İçinde 'Subscribe', 'Privacy Policy', reklam veya anlamsız kodlar olabilir.
+    Aşağıdaki metin bir haber sitesinden kazınmıştır. İçinde 'Subscribe', 'Privacy Policy' gibi çöpler olabilir.
     Senden görevlerin:
-    1. Gereksiz tüm çöpleri ve reklamları yok say, haberin asıl konusunu bul.
+    1. Metni temizle ve asıl haberi bul.
     2. Haberi profesyonel bir iş diliyle, kusursuz bir TÜRKÇE ile 2 cümlelik özetle.
-    3. Bu haberi "RoboAI Cafe" (Robotik servis ve yapay zeka entegreli kafe) kurmak isteyen, otomasyonla maliyetleri düşürmeyi hedefleyen bir girişimci için stratejik olarak yorumla.
+    3. Bu haberi "RoboAI Cafe" kurmak isteyen bir girişimci için acımasız bir yatırım danışmanı gibi yorumla. Sadece övme; şu 3 açıdan eleştir veya analiz et:
+       - Finansal Gerçeklik: Donanım/bakım maliyeti ile ortalama bir personel maaşı kıyaslandığında ROI (Yatırım Getirisi) mantıklı mı?
+       - Risk ve Kırılganlık: Bu teknoloji zamana karşı dayanıklı mı (Lindy etkisi), yoksa arıza anında tüm operasyonu durduracak kadar kırılgan mı?
+       - Saha Gerçekliği: Yoğun bir kafe vardiyasında bu robot pratikte ne kadar işe yarar?
     
     Haber Başlığı: {baslik}
     Kazınan Metin: {ham_metin}
     
     Lütfen cevabını sadece şu formatta ver:
     📝 TÜRKÇE ÖZET: [Özet]
-    🎯 STRATEJİK YORUM: [Yorum]
+    ⚖️ RİSK VE FİNANS ANALİZİ: [Yorum]
     """
     try:
         response = model.generate_content(prompt)
