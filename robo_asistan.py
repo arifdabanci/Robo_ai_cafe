@@ -63,7 +63,6 @@ def haberi_cevir_ve_analiz_et(baslik, link, ham_metin):
         return f"<p>API Hatası: {e}</p>"
 
 def bulten_hazirla():
-    # ARAMA UFKU GENİŞLETİLDİ: Sadece kafe değil, genel otomasyon ve AI fırsatları
     arama_terimleri = [
         "artificial intelligence business opportunities",
         "robotics startup trends automation",
@@ -71,6 +70,7 @@ def bulten_hazirla():
         "autonomous technology market gaps",
         "future of AI automation profitable"
     ]
+    gunun_terimi = random.choice(arama_terimleri)
     arama_motoru = "https://www.bing.com"
     url = arama_motoru + "/news/search?q=" + gunun_terimi.replace(' ', '+')
 
