@@ -1,0 +1,28 @@
+name: RoboAI Haber Otomasyonu
+
+on:
+  schedule:
+    # Her sabah Türkiye saatiyle 09:00'da çalışır (UTC 06:00)
+    - cron: '0 6 * * *'
+  workflow_dispatch: # Bu satır sayesinde "Run workflow" butonuyla elle de çalıştırabilirsin
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kodları depodan çek
+        uses: actions/checkout@v3
+
+      - name: Python'u hazırla
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Gerekli kütüphaneleri yükle
+        run: |
+          pip install requests beautifulsoup4
+
+      - name: Botu çalıştır ve mail at
+        env:
+          EMAIL_SIFRESI: ${{ secrets.EMAIL_SIFRESI }}
+        run: python robo_asistan.py
